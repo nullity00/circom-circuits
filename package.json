@@ -1,0 +1,16 @@
+{
+  "name": "circom-circuits",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:nullity00/circom-circuits.git",
+  "author": "nullity00 <00nullity@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "big-integer": "^1.6.51",
+    "chai": "^4.3.7",
+    "circom_tester": "^0.0.19",
+    "mocha": "^10.2.0",
+    "snarkjs": "^0.6.10"
+  }
+}
