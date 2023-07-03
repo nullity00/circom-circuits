@@ -20,6 +20,6 @@ mocha test
 
 ## To do
 
-- implement [pruneBuffer](https://github.com/iden3/circomlibjs/blob/main/src/eddsa.js#L29) function as a template inside a circuit
+- implement [pruneBuffer](https://github.com/iden3/circomlibjs/blob/main/src/eddsa.js#L29) function as a template inside a circuit, to allow the same random value to be the private key both inside and outside the circuit. Off-circuit pubkey generation requires the private key to be massaged (“pruned”) before being passed into a circuit. 
 - circuits for proof of burn, proof of solvency 
 - tests !!!!
