@@ -35,7 +35,7 @@ template CheckIfOdd(n){
   signal output out;
   component n2b = Num2Bits(n);
   n2b.in <== in;
-  n2b.out[0] === 1;
+  out <== n2b.out[0];
 
   // --> Alternate implementation
   // out <== in % 2;
