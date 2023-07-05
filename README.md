@@ -13,7 +13,7 @@ mocha test
 - ``basic.circom`` : Multi operand addition & multiplication, if else circuit
 - ``shift.circom`` : Right & left shift circuits
 - ``gates.circom`` : Multi operand AND , OR gates
-- ``bitops.circom`` : Checks if the decimal & binary values are the same
+- ``bitops.circom`` : Checks if the decimal & binary values are the same, bitwise AND & OR circuits.
 - ``msnzb.circom`` : Circuit to find the Most Significant Non Zero Bit
 - ``float_add.circom``: Adds two floating point numbers represented as exponent & mantissa
 - ``utils.circom`` : helper functions to find gcd, factorial, log2 of a num
