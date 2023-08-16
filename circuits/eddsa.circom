@@ -27,6 +27,8 @@ template EddsaVerifier() {
 
     component bits2pointR8 = Bits2Point_Strict();
 
+    var i;
+
     for (i=0; i<256; i++) {
         bits2pointR8.in[i] <== R8[i];
     }
@@ -42,15 +44,9 @@ template EddsaVerifier() {
     orderCheck.Ry <== R8y;
 
     component hash = Poseidon(5);
-    hash.in[0] <== R8x;
-    hash.in[1] <== R8y;
-    hash.in[2] <== Ax;
-    hash.in[3] <== Ay;
-    hash.in[4] <== msg;
 
     // LHS : s * G
 
-    component lhs = Escalarmulfix();
 
 }
 
@@ -82,12 +78,12 @@ template OrderCheck(){
   // Check if Rx = 0 && Ry = 1
 
   component is_zero = IsZero();
-  is_zero.in[0] <== Rx;
+  is_zero.in <== Rx;
   is_zero.out === 0;
 
   signal diff <== Ry - 1; // 1 - 1 = 0
-  signal diff_is_zero = IsZero();
-  diff_is_zero.in[0] <== diff;
+  component diff_is_zero = IsZero();
+  diff_is_zero.in <== diff;
   diff_is_zero.out === 0;
 
 }
