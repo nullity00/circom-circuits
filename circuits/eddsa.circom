@@ -4,6 +4,9 @@ include "../node_modules/circomlib/circuits/poseidon.circom";
 include "../node_modules/circomlib/circuits/compconstant.circom";
 include "../node_modules/circomlib/circuits/pointbits.circom";
 include "../node_modules/circomlib/circuits/escalarmulfix.circom";
+include "../node_modules/circomlib/circuits/bitify.circom";
+include "../node_modules/circomlib/circuits/escalarmulany.circom";
+include "../node_modules/circomlib/circuits/babyjub.circom";
 
 
 // ECDSA Signature
@@ -22,6 +25,11 @@ template EddsaVerifier() {
 
   signal R8x;
   signal R8y;
+
+  var BASE8[2] = [
+        5299619240641551281634865583518297030282874472190772894086521144482721001553,
+        16950150798460657717958625567821834550301663161624707787222815936182638968203
+    ];
 
 // Convert R8 to Field elements (And verify R8)
 
@@ -44,9 +52,49 @@ template EddsaVerifier() {
     orderCheck.Ry <== R8y;
 
     component hash = Poseidon(5);
+    hash.inputs[0] <== R8x;
+    hash.inputs[1] <== R8y;
+    hash.inputs[2] <== Ax;
+    hash.inputs[3] <== Ay;
+    hash.inputs[4] <== msg;
 
     // LHS : s * G
+    component lhs = EscalarMulFix(256, BASE8);
+    
+    for( var i=0; i < 256; i++) {
+        lhs.e[i] <== S[i];
+    }
 
+    // RHS : R + h(m, R, A) * A
+
+    
+    // converting hash to bits
+
+    component n2b = Num2Bits(256);
+    n2b.in <== hash.out; // output of the Poseidon Hash
+
+    // hash * A
+    component mulHash = EscalarMulAny(256);
+    
+    for(var i=0; i<256; i++) {
+        mulHash.e[i] <== n2b.out[i];
+    }
+
+    mulHash.p[0] <== Ax;
+    mulHash.p[1] <== Ay;
+
+    // R + hash * A
+
+    component rhs = BabyAdd();
+    rhs.x1 <== R8x;
+    rhs.y1 <== R8y;
+    rhs.x2 <== mulHash.out[0];
+    rhs.y2 <== mulHash.out[1];
+
+    // Check if LHS = RHS
+
+    lhs.out[0] === rhs.xout;
+    lhs.out[1] === rhs.yout;
 
 }
 
