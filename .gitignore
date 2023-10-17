@@ -26,3 +26,5 @@ coverage
 .nyc_output
 
 node_modules
+circuits/ptau18.ptau
+circuits/ptau20.ptau
